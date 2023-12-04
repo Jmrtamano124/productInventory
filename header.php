@@ -118,6 +118,41 @@ $generatedPassword = randomPassword();
       });
 
 
+      $('.stockBtn').click(function(){
+        var row = $(this).closest('form');
+        var trnType = $(this).val();
+        var quantity = row.find('#productQuantity').val();
+        var product_qrKey = row.find('#outputData').val();
+         $.ajax({
+          url: "stockprocess.php",
+          type: "POST",
+          data:{"product_qr_key" : product_qrKey, "type" : trnType, "quantity" : quantity}
+        }).done(function(data) {
+            if(data.result == "success"){
+              const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-right',
+            iconColor: 'white',
+            customClass: {
+              popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Product Stock Updated'
+          }).then((result) => {
+              location.reload();
+            });
+            }else{
+
+            }
+        });
+      });
+
 
 
     });

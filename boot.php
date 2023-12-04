@@ -10,7 +10,7 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('DB_NAME', 'product_inventory');
-define('APP_ROOT', 'http://localhost/product_inventory');
+define('APP_ROOT', 'https://localhost/product_inventory');
 try {
 	$pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD);
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -25,7 +25,7 @@ if(empty($_SESSION['username']) && !defined('LOGIN')){
 	$userid = $_SESSION['userid'] ?? '';
 	
 }
-
+$login = $_SESSION['login'] ?? '';
 if($login == '1'){
 	$_SESSION['login'] = '2';
 }else{

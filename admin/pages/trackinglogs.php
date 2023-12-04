@@ -3,18 +3,27 @@
   <thead class="table-dark">
     <tr>
       <th scope="col" width="2%">#</th>
-      <th scope="col">Product</th>
+      <th scope="col">Product Name</th>
       <th scope="col">Quantity</th>
-      <th scope="col" width="10%">Transaction Type</th>
+      <th scope="col">Transaction Type</th>
+      <th scope="col">Transaction Date</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>1</td>
-      <td>P.E. Uniform</td>
-      <td>150</td>
-      <td>Stock In</td>
-    </tr>
+      <?php 
+      $i= 1;
+      while($resStocklogs = $selectStockLogs->fetch()){
+        ?>
+        <tr>
+          <td><?php echo $i++ ?></td>
+          <td><?php echo $resStocklogs['product_description'] ?></td>
+          <td><?php echo $resStocklogs['quantity'] ?></td>
+          <td width="15%" class="fw-bold text-center"><?php echo $resStocklogs['transact_type'] ?></td>
+          <td width="16%" class="text-center"><?php echo $resStocklogs['created_at'] ?></td>
+        </tr>
+        <?php
+      }
+      ?>
   </tbody>
 </table>
 </div>

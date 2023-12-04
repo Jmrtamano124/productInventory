@@ -9,6 +9,7 @@
       <th scope="col">Description</th>
       <th scope="col">Unit</th>
       <th scope="col">Current Quantity</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -21,6 +22,7 @@
         <td><?php echo $resProduct['product_description'] ?></td>
         <td><?php echo $resProduct['product_unit'] ?></td>
         <td width="17%" class="text-center"><?php echo $resProduct['quantity'] ?></td>
+        <td width="20%" class="text-center"><a href="printqr.php?id=<?php echo $resProduct['product_code'].'&description='.$resProduct['product_description'] ?>" class="btn btn-secondary" target="_blank"><i class="fa fa-qrcode me-2"></i>QRCODE</a></td>
       </tr>
       <?php
     }
