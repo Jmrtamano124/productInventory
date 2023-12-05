@@ -21,7 +21,7 @@ $pdf->SetFont('Times','B', 11);
 $pdf->Cell(90,7,utf8_decode($productQrId),0,0,'C'); //plate number left
 
 $pdf->SetXY(20,70);
-$pdf->SetFont('Times','B', 20);
+$pdf->SetFont('Times','B', 15);
 $pdf->Cell(90,7,utf8_decode(strtoupper($productName)),0,0,'C'); //plate number right
 
 
@@ -30,7 +30,7 @@ $pdf->SetFont('Times','B', 11);
 $pdf->Cell(90,7,utf8_decode($productQrId),0,0,'C'); //plate number right
 
 $pdf->SetXY(119,70);
-$pdf->SetFont('Times','B', 20);
+$pdf->SetFont('Times','B', 15);
 $pdf->Cell(90,7,utf8_decode(strtoupper($productName)),0,0,'C'); //plate number right
 
 $pdf->Output();
