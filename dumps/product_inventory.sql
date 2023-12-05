@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2023 at 04:56 AM
+-- Generation Time: Dec 05, 2023 at 02:48 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -84,7 +84,7 @@ CREATE TABLE `users_account` (
 --
 
 INSERT INTO `users_account` (`account_id`, `fname`, `mname`, `lname`, `namesuffix`, `username`, `password`, `accessType`) VALUES
-(1, 'Administrator', '', '', '', 'admin', '$2a$12$3V3Hh02e0HgZwvBgGPUFVO/oY6X7Yl11yLrXCwUstC9L4oxM4dTH6', 'administrator');
+(4, 'John', 'E.', 'Doe', '', 'admin', '$2y$10$yaqsSr4nF1UGRObbeat35.JjsPVdGEuGBGGpYOYXxmxBG2XPZAE0u', 'administrator');
 
 --
 -- Indexes for dumped tables
@@ -134,7 +134,7 @@ ALTER TABLE `tracking_logs`
 -- AUTO_INCREMENT for table `users_account`
 --
 ALTER TABLE `users_account`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
