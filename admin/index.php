@@ -2,7 +2,7 @@
 define("LOGIN", 1);
 include '../header.php';
 $selectProduct = $pdo->query("SELECT p.product_code, p.product_description, p.product_unit, sc.quantity FROM product_list as p LEFT JOIN stockcount as sc ON sc.productId = p.product_id");
-$selectUser = $pdo->query("SELECT * FROM users_account WHERE accessType='user' ");
+$selectUser = $pdo->query("SELECT * FROM users_account");
 
 $selectStockLogs = $pdo->query("SELECT p.product_description, st.quantity, st.transact_type, st.created_at FROM tracking_logs as st LEFT JOIN product_list as p ON p.product_code = st.productId");
 ?>
