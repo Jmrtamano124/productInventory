@@ -7,7 +7,8 @@
     <tr>
       <th scope="col" width="2%">#</th>
       <th scope="col">Description</th>
-      <th scope="col">Unit</th>
+      <th scope="col">Department</th>
+      <th scope="col">Size</th>
       <th scope="col">Current Quantity</th>
       <th>Action</th>
     </tr>
@@ -20,7 +21,8 @@
       <tr>
         <td><?php echo $i++ ?></td>
         <td><?php echo $resProduct['product_description'] ?></td>
-        <td><?php echo $resProduct['product_unit'] ?></td>
+        <td><?php echo $resProduct['department'] ?></td>
+        <td><?php echo strtoupper($resProduct['product_size']) ?></td>
         <td width="17%" class="text-center"><?php echo $resProduct['quantity'] ?></td>
         <td width="20%" class="text-center"><a href="printqr.php?id=<?php echo $resProduct['product_code'].'&description='.$resProduct['product_description'] ?>" class="btn btn-secondary" target="_blank"><i class="fa fa-qrcode me-2"></i>QRCODE</a></td>
       </tr>
@@ -50,12 +52,32 @@
           <input type="text" name="pname" class="form-control">
         </div>
         <div class="form-group">
-          <label>Unit:</label>
-          <input type="text" name="punit" class="form-control">
-        </div>
-        <div class="form-group">
           <label>Quantity:</label>
           <input type="text" name="pquantity" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Size:</label>
+          <div class="d-flex">
+            <div class="mx-1">
+              <input type="radio" name="product_size" class="form-check-input" value="s" id="s"><label for="s">Small</label>
+            </div>
+            <div class="mx-1">
+              <input type="radio" name="product_size" class="form-check-input" value="m" id="m"><label for="m">Medium</label>
+            </div>
+            <div class="mx-1">
+              <input type="radio" name="product_size" class="form-check-input" value="l" id="l"><label for="l">Large</label>
+            </div>
+            <div class="mx-1">
+              <input type="radio" name="product_size" class="form-check-input" value="xl" id="xl"><label for="xl">Extra-Large</label>
+            </div>
+            <div class="mx-1">
+              <input type="radio" name="product_size" class="form-check-input" value="xxl" id="xxl"><label for="xxl">X-Extra-Large</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Department</label>
+          <input type="text" name="department" class="form-control">
         </div>
       </div>
       <div class="modal-footer">

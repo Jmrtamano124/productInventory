@@ -153,8 +153,32 @@ $generatedPassword = randomPassword();
         });
       });
 
+      $('.editUserBtn').click(function(){
+        var row = $(this).closest('tr');
+        var fname = row.find('.fname').val();
+        var mname = row.find('.mname').val();
+        var lname = row.find('.lname').val();
+        var namesuffix = row.find('.namesuffix').val();
+        var accountId = row.find('.accountId').val();
+      $('#displayFname').val(fname);
+      $('#displayMname').val(mname);
+      $('#displayLname').val(lname);
+      $('#displaySuffix').val(namesuffix);
+      $('#displayAccId').val(accountId);
+      });
 
+      $('#reserveCourse').hide();
+      $('#reserveProduct').on('change', function(){
+        var product = $('#reserveProduct :selected').text();
 
+        if(product == 'Scrub Suit'){
+          $('#reserveCourse').show();
+          $('#college2').hide();
+        }else{
+          $('#reserveCourse').hide();
+          $('#college2').show();
+        }
+      });
     });
   </script>
 </head>

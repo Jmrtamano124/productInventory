@@ -4,14 +4,17 @@ require ('../boot.php');
 
 	$pcode = $_POST['pcode'];
 	$pname = $_POST['pname'];
-	$punit = $_POST['punit'];
+	$department = $_POST['department'];
 	$pquantity = $_POST['pquantity'];
+	$product_size = $_POST['product_size'];
 
-$insertProduct = $pdo->query("INSERT INTO product_list(product_code,product_description,product_unit) VALUES(
+
+$insertProduct = $pdo->query("INSERT INTO product_list(product_code,product_description, product_size,department) VALUES(
 	'$pcode',
 	'$pname',
-	'$punit'
-) ON DUPLICATE KEY UPDATE product_unit='$punit'");
+	'$product_size',
+	'$department'
+) ON DUPLICATE KEY UPDATE department='$department'");
 
 $productId = $pdo->lastInsertId();
 $addStock = $pdo->prepare("INSERT INTO stockcount (product_qr_key, productId, quantity) VALUES(
