@@ -74,8 +74,8 @@
           <label>Access:</label>
           <select class="form-select" name="accesstype">
             <option selected disabled>Select Access type</option>
-            <option value="User">User</option>
-            <option value="Administrator">Administrator</option>
+            <option value="user">User</option>
+            <option value="administrator">Administrator</option>
           </select>
         </div>
       </div>

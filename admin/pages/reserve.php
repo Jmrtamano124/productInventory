@@ -1,38 +1,75 @@
 <div class="w-75 mx-auto pt-3">
-  <div class="text-end my-2">
-    <button class="btn btn-primary px-2" data-bs-toggle="modal" data-bs-target="#addReservationModal">Add Reservation</button>
+  <div class="d-flex mb-2">
+    <div class="me-auto my-2">
+     <?php 
+     if($_SESSION['access'] =='user'){
+
+     }else{
+      ?>
+      <a href="index.php?page=QRCODE&type=stockout" class="btn btn-secondary px-2"> <i class="fa fa-qrcode me-2"></i>Scann QR</a>
+      <?php
+    }
+    ?>
+    </div>
+    <div class="text-end my-2">
+      <button class="btn btn-primary px-2" data-bs-toggle="modal" data-bs-target="#addReservationModal">Add Reservation</button>
   </div>
-  <table class="table table-bordered">
-    <thead class="table-dark">
-      <tr class="text-center">
-        <th scope="col" width="2%">#</th>
-        <th scope="col">Student Name</th>
-        <th scope="col">College</th>
-        <th scope="col">Year & Section</th>
-        <th scope="col">Status</th>
-        <th scope="col">Reservation Date</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
+</div>
+<table class="table table-bordered" id="reserveTable">
+  <thead class="table-dark">
+    <tr class="text-center">
+      <th scope="col" width="2%">#</th>
+      <th scope="col">Student Name</th>
+      <th scope="col">College</th>
+      <th scope="col">Year</th>
+      <th scope="col">Section</th>
+      <th scope="col">Reserved Product</th>
+      <th scope="col">Size</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Status</th>
+      <th scope="col">Reservation Date</th>
       <?php 
-      $i= 1;
-      while($resReservation = $selectReservation->fetch()){
+      if($_SESSION['access'] =='user'){
+
+      }else{
         ?>
-        <tr>
-          <td><?php echo $i++ ?></td>
-          <td><?php echo $resReservation['studentFullname'] ?></td>
-          <td><?php echo $resReservation['college_course'] ?></td>
-          <td><?php echo $resReservation['yr_section'] ?></td>
-          <td><?php echo $resReservation['status'] ?></td>
-          <td width="16%" class="text-center"><?php echo $resReservation['created_at'] ?></td>
-          <td class="text-center"><a href="release.php?studentid=<?php echo $resReservation['account_id'].'&productid='.$resReservation['product_id'].'&size='.$resReservation['reserve_size'] ?>" class="btn btn-primary px-2">Release</a></td>
-        </tr>
+        <th>Action</th>
         <?php
       }
       ?>
-    </tbody>
-  </table>
+    </tr>
+  </thead>
+  <tbody>
+    <?php 
+    $i= 1;
+    while($resReservation = $selectReservation->fetch()){
+      ?>
+      <tr>
+        <td><?php echo $i++ ?></td>
+        <td><?php echo $resReservation['studentFullname'] ?></td>
+        <td><?php echo $resReservation['college_course'] ?></td>
+        <td><?php echo $resReservation['student_yr'] ?></td>
+        <td><?php echo $resReservation['student_section'] ?></td>
+        <td><?php echo $resReservation['product_description'] ?></td>
+        <td><?php echo strtoupper($resReservation['reserve_size']) ?></td>
+        <td><?php echo $resReservation['reserve_quantity'] ?></td>
+        <td><?php echo $resReservation['status'] ?></td>
+        <td width="16%" class="text-center"><?php echo $resReservation['created_at'] ?></td>
+        <?php 
+        if($_SESSION['access'] == 'user'){
+
+        }else{
+          ?>
+          <td class="text-center"><a href="release.php?productid=<?php echo $resReservation['product_code'].'&size='.$resReservation['reserve_size'].'&q='.$resReservation['reserve_quantity'] ?>" class="btn btn-primary px-2">Release</a></td>
+          <?php
+        }
+        ?>
+      </tr>
+      <?php
+    }
+    ?>
+  </tbody>
+</table>
 </div>
 
 <form action="reserveProduct.php" method="POST">
@@ -45,9 +82,54 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <div class="form-group mb-2" >
+            <label>College</label>
+            <select class="form-select" name="college">
+              <option selected disabled>Select College --</option>
+              <?php 
+              $slectDept= $pdo->query("SELECT * FROM department");
+              while($resDept = $slectDept->fetch()){
+                ?>
+                <option value="<?php echo $resDept['deptName'] ?>"><?php echo $resDept['deptName'] ?></option>
+                <?php
+              }
+              ?>
+            </select>
+          </div>
+          <div class="form-group mb-2">
+            <label>Student ID Number:</label>
+            <input type="text" name="idnumber" class="form-control">
+          </div>
+          <div class="form-group mb-2">
+            <label>Student First Name:</label>
+            <input type="text" name="fname" class="form-control">
+          </div>
+          <div class="form-group mb-2">
+            <label>Student Middle Name:</label>
+            <input type="text" name="mname" class="form-control">
+          </div>
+          <div class="form-group mb-2">
+            <label>Student Last Name:</label>
+            <input type="text" name="lname" class="form-control">
+          </div>
+          <div class="form-group mb-2">
+            <label>Student Suffix:</label>
+            <input type="text" name="namesuffix" class="form-control">
+          </div>
+          <div class="form-group mb-2">
+            <label>Year</label>
+            <input type="text" name="studentYr" class="form-control">
+          </div>
+          <div class="form-group mb-2">
+            <label>Section</label>
+            <input type="text" name="studentSection" class="form-control">
+          </div>
           <div class="form-group mb-2">
             <label>Product</label>
-            <select class="form-select" name="product" id="reserveProduct">
+            <div class="float-end">
+              <button type="button" class="btn btn-success" id="addproductBtn"><i class="fa fa-plus"></i></button>
+            </div>
+            <select class="form-select" name="product[]" id="reserveProduct">
               <option selected disabled>Select Product -- </option>
               <?php 
               $selectProduct = $pdo->query("SELECT * FROM product_list GROUP BY product_description");
@@ -58,37 +140,7 @@
               }
               ?>
             </select>
-          </div>
-          <div class="form-group mb-2" id="reserveCourse">
-            <label>College</label>
-            <select class="form-select" name="college">
-              <option selected disabled>Select College --</option>
-              <option value="Nursing">Nursing</option>
-              <option value="Dentistry">Dentistry</option>
-              <option value="Medicine">Medicine</option>
-              <option value="RadTech">RadTech</option>
-            </select>
-          </div>
-          <div class="form-group mb-2">
-            <label>Student Name:</label>
-            <select class="form-select" name="studentId">
-              <option selected disabled>Select Student -- </option>
-              <?php 
-              foreach($resUser as $resrvUser){
-                ?>
-                <option value="<?php echo $resrvUser['account_id'] ?>"><?php echo $resrvUser['studentFullname'] ?></option>
-                <?php
-              }
-              ?>
-            </select>
-          </div>
-          <div class="form-group mb-2" id="college2">
-            <label>College</label>
-            <input type="text" name="college2" class="form-control">
-          </div>
-          <div class="form-group mb-2">
-            <label>Year & Section</label>
-            <input type="text" name="yrsection" class="form-control">
+            <div id="displayAdditionalProduct"></div>
           </div>
           <div class="form-group">
             <label>Size:</label>
@@ -109,6 +161,10 @@
                 <input type="radio" name="product_size" class="form-check-input" value="xxl" id="xxl"><label for="xxl">X-Extra-Large</label>
               </div>
             </div>
+          </div>
+          <div class="form-group mb-2">
+            <label>Quantity:</label>
+            <input type="text" name="reserve_quantity" class="form-control">
           </div>
         </div>
         <div class="modal-footer">

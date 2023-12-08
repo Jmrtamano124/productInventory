@@ -1,15 +1,16 @@
-<?php 
+<?php
 define('LOGIN', 1);
 require ('../boot.php');
+$username = $_SESSION['username'];
 try{
 // echo "<br>".$productid."<br>";
 
 
-	for ($i=0; $i < count($_POST['product']) ; $i++) { 
+	
 	// code...
-		$product = $_POST['product'][$i];
-		$reserve_quantity = $_POST['reserve_quantity'];
-		$college = $_POST['college'] ?? $_POST['college2'];
+		$college = $_POST['college'];
+		$idnumber = $_POST['idnumber'];
+		$productid = $_POST['data'];
 		$fname = $_POST['fname'];
 		$mname = $_POST['mname'];
 		$lname = $_POST['lname'];
@@ -17,14 +18,9 @@ try{
 		$studentYr = $_POST['studentYr'];
 		$studentSection = $_POST['studentSection'];
 		$product_size = $_POST['product_size'];
-		$idnumber = $_POST['idnumber'];
+		$reserve_quantity = $_POST['reserve_quantity'];
 // echo "<pre>";
 // var_dump($_POST);
-
-		$slectProduct = $pdo->query("SELECT product_code FROM product_list WHERE product_description='$product' AND product_size='$product_size' AND department = '$college' ");
-		$resProduct = $slectProduct->fetch();
-
-		$productid = $resProduct['product_code'];
 
 // die;
 		$insertReserve = $pdo->query("INSERT INTO reservation (
@@ -39,6 +35,10 @@ try{
 			, college_course
 			, student_yr
 			, student_section
+			, status
+			, is_released
+			, released_by
+			, updated_at
 			) VALUES(
 			'$product_size'
 			, '$productid'
@@ -51,12 +51,20 @@ try{
 			, '$college'
 			, '$studentYr'
 			, '$studentSection'
+			, 'Released'
+			, 1
+			, '$username'
+			, '$dateNow'
 		)");
-	}
+
+$updateStock = $pdo->query("UPDATE stockcount SET quantity = quantity - $reserve_quantity WHERE product_qr_key ='$productid'");
+
+	$insertTrackingLogs = $pdo->query("INSERT INTO tracking_logs(productId, quantity, transact_type)VALUES('$productid','$reserve_quantity','stockout')");
+$_SESSION['page'] ='Reserve';
+header("location:actions.php?do=success");
+
 }catch(PDOException $e){
 	echo $e;
 }
 
-$_SESSION['page'] ='Reserve';
-header("location:actions.php?do=success");
 ?>

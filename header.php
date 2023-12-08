@@ -27,6 +27,8 @@ $generatedPassword = randomPassword();
   <script src="<?php echo Resources::Url('/bootstrap-5.2.0/js/bootstrap.bundle.js') ?>"></script>
   <link rel="stylesheet" type="text/css" href="<?php echo Resources::Url('/fontawesome/css/all.min.css') ?>">
   <script src="<?php echo Resources::Url('/jquery-3.6.0.min.js') ?>"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
   <title>INVENTORY</title>
   <style>
     body {
@@ -71,6 +73,8 @@ $generatedPassword = randomPassword();
       var productCode = "<?php echo $data2 ?>";
       $('#displayProductCode').val(productCode);
 
+      $('#reserveTable').DataTable();
+
       var newPassword = "<?php echo $generatedPassword ?>";
       $('#generatePassword').val(newPassword);
 
@@ -88,7 +92,7 @@ $generatedPassword = randomPassword();
           var result = data.result;
 
           if(result == 'success'){
-           if(data.access =='administrator'){
+           if(data.access =='administrator' || data.access =='user'){
             window.location.href='admin';
           }else{
             window.location.href='dashboard.php';
@@ -179,6 +183,20 @@ $generatedPassword = randomPassword();
           $('#college2').show();
         }
       });
+
+      $('#addproductBtn').click(function(){
+        var output="";
+        output += '<select class="form-select" name="product[]">';
+        output += '<option selected disabled>Select Product -- </option>';
+        output += '<option value="PE Uniform">PE Uniform</option>';
+        output += '<option value="Scrub Suit">Scrub Suit</option>';
+        output += '</select>';
+
+        $('#displayAdditionalProduct').append(output);
+      });
+
+
+
     });
   </script>
 </head>

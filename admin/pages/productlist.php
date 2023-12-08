@@ -1,6 +1,16 @@
-<div class="w-50 mx-auto pt-3">
+<div class="w-75 mx-auto pt-3">
   <div class="text-end">
-    <button class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New Product</button>
+    <?php 
+    if($_SESSION['access'] =='user'){
+      ?>
+
+      <?php
+    }else{
+      ?>
+<button class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#addProductModal">Add New Product</button>
+      <?php
+    }
+    ?>
   </div>
   <table class="table table-bordered">
   <thead class="table-dark">
@@ -10,7 +20,15 @@
       <th scope="col">Department</th>
       <th scope="col">Size</th>
       <th scope="col">Current Quantity</th>
-      <th>Action</th>
+      <?php 
+      if($_SESSION['access'] == 'user'){
+
+      }else{
+        ?>
+        <th>Action</th>
+        <?php
+      }
+      ?>
     </tr>
   </thead>
   <tbody>
@@ -24,7 +42,17 @@
         <td><?php echo $resProduct['department'] ?></td>
         <td><?php echo strtoupper($resProduct['product_size']) ?></td>
         <td width="17%" class="text-center"><?php echo $resProduct['quantity'] ?></td>
-        <td width="20%" class="text-center"><a href="printqr.php?id=<?php echo $resProduct['product_code'].'&description='.$resProduct['product_description'] ?>" class="btn btn-secondary" target="_blank"><i class="fa fa-qrcode me-2"></i>QRCODE</a></td>
+        <?php 
+if($_SESSION['access']=='user'){
+  ?>
+
+  <?php
+}else{
+  ?>
+  <td width="20%" class="text-center"><a href="printqr.php?id=<?php echo $resProduct['product_code'].'&description='.$resProduct['product_description'] ?>" class="btn btn-secondary" target="_blank"><i class="fa fa-qrcode me-2"></i>QRCODE</a></td>
+  <?php
+}
+        ?>
       </tr>
       <?php
     }
@@ -47,9 +75,10 @@
           <label>Product Code:</label>
           <input type="text" name="pcode" class="form-control" id="displayProductCode" readonly>
         </div>
-        <div class="form-group">
+        <div class="form-group my-2">
           <label>Product Name:</label>
-          <input type="text" name="pname" class="form-control">
+          <input type="radio" name="pname" class="form-check-input" value="PE Uniform" id="pe"><label for="pe">PE Uniform</label>
+          <input type="radio" name="pname" class="form-check-input" value="Scrub Suit" id="scrubsuit"><label for="scrubsuit">Scrub Suit</label>          
         </div>
         <div class="form-group">
           <label>Quantity:</label>
@@ -77,7 +106,17 @@
         </div>
         <div class="form-group">
           <label>Department</label>
-          <input type="text" name="department" class="form-control">
+          <select class="form-select" name="department">
+              <option selected disabled>Select College --</option>
+              <?php 
+              $slectDept= $pdo->query("SELECT * FROM department");
+              while($resDept = $slectDept->fetch()){
+                ?>
+                <option value="<?php echo $resDept['deptName'] ?>"><?php echo $resDept['deptName'] ?></option>
+                <?php
+              }
+              ?>
+            </select>
         </div>
       </div>
       <div class="modal-footer">
